@@ -34,7 +34,7 @@
                 <td>{{ product.description }}</td>
                 <td>{{ product.AddDate ? product.AddDate|date('Y-m-d') : '' }}</td>
                 <td>{{ product.LastModifiedDate ? product.LastModifiedDate|date('Y-m-d') : '' }}</td>
-                <td><a href="/category/{{ product.category.id }}">{{ product.category.name }}</a></td>
+                <td><a href="{{ path('product_category_show', {'id': product.category.id}) }}">{{ product.category.name }}</a></td>
                 <td>
                     <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>

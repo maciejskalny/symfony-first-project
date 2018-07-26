@@ -33,7 +33,8 @@
     <p>Products:</p>
     {% for product in product_category.products %}
 
-        <li><a href="/product/{{ product.id }}">{{ product.name }}</a></li></br>
+        <li><a href="{{ path('product_show', {'id': product.id}) }}">{{ product.name }}</a></li>
+
 
     {% else %}
 
