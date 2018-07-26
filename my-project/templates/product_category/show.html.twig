@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProductCategory{% endblock %}
+
+{% block body %}
+    <h1>ProductCategory</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product_category.id }}</td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td>{{ product_category.name }}</td>
+            </tr>
+            <tr>
+                <th>description</th>
+                <td>{{ product_category.description }}</td>
+            </tr>
+            <tr>
+                <th>add_date</th>
+                <td>{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>last_modified_date</th>
+                <td>{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Products:</p>
+    {% for product in product_category.products %}
+
+        <li><a href="/product/{{ product.id }}">{{ product.name }}</a></li></br>
+
+    {% else %}
+
+            <li>no products found</li></br>
+
+
+    {% endfor %}
+
+    <a href="{{ path('product_category_index') }}">back to list</a>
+
+    <a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a>
+
+    {{ include('product_category/_delete_form.html.twig') }}
+{% endblock %}
