@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProductCategory index{% endblock %}
+
+{% block body %}
+    <h1>ProductCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>name</th>
+                <th>description</th>
+                <th>add_date</th>
+                <th>last_modified_date</th>
+                <th>actions</th>
+                <td>products</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product_category in product_categories %}
+            <td>
+                <td>{{ product_category.id }}</td>
+                <td>{{ product_category.name }}</td>
+                <td>{{ product_category.description }}</td>
+                <td>{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</td>
+                <td>{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}
+                <td>
+                    <a href="{{ path('product_category_show', {'id': product_category.id}) }}">show</a>
+                    <a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a>
+                </td>
+            </tr>
+
+
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_category_new') }}">Create new</a>
+{% endblock %}
