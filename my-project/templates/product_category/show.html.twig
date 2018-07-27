@@ -43,9 +43,9 @@
 
     {% endfor %}
 
-    <a href="{{ path('product_category_index') }}">back to list</a>
+    <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_category_index') }}">back to list</a></button>
 
-    <a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a>
+    <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a></button>
 
     {{ include('product_category/_delete_form.html.twig') }}
 {% endblock %}
