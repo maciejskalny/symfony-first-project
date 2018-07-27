@@ -42,6 +42,8 @@ class ProductController extends Controller
                 'New product has been added.'
             );
 
+
+
             return $this->redirectToRoute('product_index');
         }
 
@@ -68,6 +70,7 @@ class ProductController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash(
