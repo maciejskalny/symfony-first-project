@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ProductCategory
 {
@@ -82,11 +83,13 @@ class ProductCategory
         return $this->add_date;
     }
 
-    public function setAddDate(\DateTimeInterface $add_date): self
-    {
-        $this->add_date = $add_date;
+    /**
+     * @ORM\PrePersist
+     */
 
-        return $this;
+    public function setAddDate()
+    {
+        $this->add_date = new \DateTime();
     }
 
     public function getLastModifiedDate(): ?\DateTimeInterface
@@ -94,11 +97,14 @@ class ProductCategory
         return $this->last_modified_date;
     }
 
-    public function setLastModifiedDate(\DateTimeInterface $last_modified_date): self
-    {
-        $this->last_modified_date = $last_modified_date;
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
 
-        return $this;
+    public function setLastModifiedDate()
+    {
+        $this->last_modified_date = new \DateTime();
     }
 
     /**
