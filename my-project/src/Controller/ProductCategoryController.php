@@ -101,4 +101,5 @@ class ProductCategoryController extends Controller
 
         return $this->redirectToRoute('product_category_index');
     }
+
 }
