@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ProductCategory index{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block header %}
 
@@ -12,39 +12,35 @@
 
     <h1>ProductCategory index</h1>
 
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>Id</th>
-                <th>name</th>
-                <th>description</th>
-                <th>add_date</th>
-                <th>last_modified_date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product_category in product_categories %}
-            <tr>
-                <td>{{ product_category.id }}</td>
-                <td>{{ product_category.name }}</td>
-                <td>{{ product_category.description }}</td>
-                <td>{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</td>
-                <td>{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}
-                <td>
-            <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_category_show', {'id': product_category.id}) }}">show</a></button>
-            <button type="button" class="btn btn-outline-warning"><a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a></button>
-                </td>
-            </tr>
+    <div class="row">
+        <div class="col">Id</div>
+        <div class="col">name</div>
+        <div class="col">description</div>
+        <div class="col">add_date</div>
+        <div class="col">last_modified_date</div>
+        <div class="col">actions</div>
+    </div>
 
+    {% for product_category in product_categories %}
+
+        <div class="row">
+            <div class="col">{{ product_category.id }}</div>
+            <div class="col">{{ product_category.name }}</div>
+            <div class="col">{{ product_category.description }}</div>
+            <div class="col">{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</div>
+            <div class="col">{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}</div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_category_show', {'id': product_category.id}) }}">show</a></button>
+                <button type="button" class="btn btn-outline-warning"><a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a></button>
+            </div>
+        </div>
 
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('product_category_new') }}">Create new</a>
+                <p>no records found</p>
+
+    {% endfor %}
+
+            <a href="{{ path('product_category_new') }}">Create new</a>
+
 {% endblock %}

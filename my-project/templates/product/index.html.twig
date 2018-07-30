@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block header %}
 
@@ -20,39 +20,34 @@
 
     <h1>Product index</h1>
 
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>Id</th>
-                <th>name</th>
-                <th>description</th>
-                <th>add_date</th>
-                <th>last_modified_date</th>
-                <th>category</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.AddDate ? product.AddDate|date('Y-m-d') : '' }}</td>
-                <td>{{ product.LastModifiedDate ? product.LastModifiedDate|date('Y-m-d') : '' }}</td>
-                <td><a href="{{ path('product_category_show', {'id': product.category.id}) }}">{{ product.category.name }}</a></td>
-                <td>
-                    <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_show', {'id': product.id}) }}">show</a></button>
-                    <button type="button" class="btn btn-outline-warning"><a href="{{ path('product_edit', {'id': product.id}) }}">edit</a></button>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col">Id</div>
+        <div class="col">Name</div>
+        <div class="col">Description</div>
+        <div class="col">Created at</div>
+        <div class="col">Last modified date</div>
+        <div class="col">Category</div>
+        <div class="col">Actions</div>
+    </div>
+
+    {% for product in products %}
+        <div class="row">
+            <div class="col">{{ product.id }}</div>
+            <div class="col">{{ product.name }}</div>
+            <div class="col">{{ product.description }}</div>
+            <div class="col">{{ product.AddDate ? product.AddDate|date('Y-m-d') : '' }}</div>
+            <div class="col">{{ product.LastModifiedDate ? product.LastModifiedDate|date('Y-m-d') : '' }}</div>
+            <div class="col"><a href="{{ path('product_category_show', {'id': product.category.id}) }}">{{ product.category.name }}</a></div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_show', {'id': product.id}) }}">show</a></button>
+                <button type="button" class="btn btn-outline-warning"><a href="{{ path('product_edit', {'id': product.id}) }}">edit</a></button>
+            </div>
+        </div>
+    {% else %}
+            <p>no records found</p>
+    {% endfor %}
+
 
     <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_new') }}">Create new</a></button>
+
 {% endblock %}

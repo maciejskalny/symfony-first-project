@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ProductCategory{% endblock %}
+{% block title %}{{ product_category.name }}{% endblock %}
 
 {% block header %}
 
@@ -9,43 +9,42 @@
 {% endblock %}
 
 {% block body %}
+
     <h1>ProductCategory</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product_category.id }}</td>
-            </tr>
-            <tr>
-                <th>name</th>
-                <td>{{ product_category.name }}</td>
-            </tr>
-            <tr>
-                <th>description</th>
-                <td>{{ product_category.description }}</td>
-            </tr>
-            <tr>
-                <th>add_date</th>
-                <td>{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>last_modified_date</th>
-                <td>{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col">Id</div>
+        <div class="col">{{ product_category.id }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col">name</div>
+        <div class="col">{{ product_category.name }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col">description</div>
+        <div class="col">{{ product_category.description }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col">add_date</div>
+        <div class="col">{{ product_category.AddDate ? product_category.AddDate|date('Y-m-d') : '' }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col">last_modified_date</div>
+        <div class="col">{{ product_category.LastModifiedDate ? product_category.LastModifiedDate|date('Y-m-d') : '' }}</div>
+    </div>
 
     <p>Products:</p>
     {% for product in product_category.products %}
 
         <li><a href="{{ path('product_show', {'id': product.id}) }}">{{ product.name }}</a></li>
 
-
     {% else %}
 
             <li>no products found</li></br>
-
 
     {% endfor %}
 
@@ -54,4 +53,5 @@
     <button type="button" class="btn btn-outline-primary"><a href="{{ path('product_category_edit', {'id': product_category.id}) }}">edit</a></button>
 
     {{ include('product_category/_delete_form.html.twig') }}
+
 {% endblock %}
