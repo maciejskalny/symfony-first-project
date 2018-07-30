@@ -1,10 +1,11 @@
-{% block nav %}
 
         {% for product_category in categories %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('product_category_show', {'id': product_category.id}) }}">{{ product_category.name }}</a>
             </li>
 
-        {% endfor %}
+            {% else %}
 
-{% endblock %}
+            <p>No records found</p>
+
+        {% endfor %}

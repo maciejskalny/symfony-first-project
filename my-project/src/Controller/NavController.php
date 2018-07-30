@@ -2,26 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\ProductCategory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Repository\ProductCategoryRepository;
 
 class NavController extends Controller
 {
-    /**
-     * @Route("/nav", name="nav")
-     */
-    public function index()
-    {
-        return $this->render('nav/index.html.twig', [
-            'controller_name' => 'NavController',
-        ]);
-    }
 
-    public function items()
+    public function items(ProductCategoryRepository $categories)
     {
-        $categories = $this->getDoctrine()->getManager();
-
-        return $this->render('nav/nav_items.html.twig',
-        array('categories' => $categories));
+        return $this->render('nav/nav_items.html.twig', ['categories' => $categories->findAll()]);
     }
 }
+
