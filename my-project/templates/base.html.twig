@@ -8,6 +8,17 @@
     </head>
     <body>
 
+    {% block nav %}
+
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/welcome">HOME</a>
+            </li>
+            {{ render(controller('App\\Controller\\NavController::items')) }}
+        </ul>
+
+    {% endblock %}
+
     <div class="container">
 
         <header>{% block header %}{% endblock %}</header>
