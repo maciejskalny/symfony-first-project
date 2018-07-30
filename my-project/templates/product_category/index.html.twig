@@ -2,15 +2,14 @@
 
 {% block title %}ProductCategory index{% endblock %}
 
+{% block header %}
+
+    <p>Categories</p>
+
+{% endblock %}
+
 {% block body %}
 
-    {% for message in app.flashes('notice') %}
-
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-
-    {% endfor %}
     <h1>ProductCategory index</h1>
 
     <table class="table table-striped">
