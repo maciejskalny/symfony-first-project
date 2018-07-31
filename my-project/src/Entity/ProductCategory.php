@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * This file supports product category entity
+ * @category Entity
+ * @Package Virtua_Internship
+ * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+ * @author Maciej Skalny contact@wearevirtua.com
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,6 +46,11 @@ class ProductCategory
      * @ORM\Column(type="date")
      */
     private $last_modified_date;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
@@ -105,6 +118,16 @@ class ProductCategory
     public function setLastModifiedDate()
     {
         $this->last_modified_date = new \DateTime();
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
     /**
