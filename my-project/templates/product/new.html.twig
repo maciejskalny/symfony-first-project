@@ -12,16 +12,24 @@ This file shows form which is responsible for creating new products
 
 {% block header %}
 
-    <p>Products / New product</p>
+    <p class="title-of-page">Products / New product</p>
 
 {% endblock %}
 
 {% block body %}
 
-    <h1>Create new Product</h1>
+    <div class="jumbotron">
 
-    {{ include('product/_form.html.twig') }}
+    <h1 class="entity-name">Create new product</h1>
 
-    <a href="{{ path('product_index') }}">back to list</a>
+    <br>
+
+        {{ include('product/_form.html.twig') }}
+
+    <br>
+
+        <a href="{{ path('product_index') }}"><button class="btn btn-primary">Back to list</button></a>
+
+    </div>
 
 {% endblock %}

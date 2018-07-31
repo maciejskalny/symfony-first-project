@@ -12,16 +12,22 @@ This file shows form which is responsible for creating new category
 
 {% block header %}
 
-    <p>Categories / New category</p>
+    <p class="title-of-page">Categories / New category</p>
 
 {% endblock %}
 
 {% block body %}
 
-    <h1>Create new ProductCategory</h1>
+    <div class="jumbotron">
+
+    <h1 class="entity-name">Create a new category</h1>
 
     {{ include('product_category/_form.html.twig') }}
 
-    <a href="{{ path('product_category_index') }}">back to list</a>
+    <br>
+
+        <a href="{{ path('product_category_index') }}"><button class="btn btn-primary">Back to list</button></a>
+
+    </div>
 
 {% endblock %}

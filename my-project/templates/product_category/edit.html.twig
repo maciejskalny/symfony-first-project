@@ -12,18 +12,27 @@ This file shows form which is responsible for updating another category
 
 {% block header %}
 
-    <p>Categories / {{ product_category.name }} / Edit</p>
+    <p class="title-of-page">Categories / {{ product_category.name }} / Edit</p>
 
 {% endblock %}
 
 {% block body %}
 
-    <h1>Edit ProductCategory</h1>
+    <div class="jumbotron">
+
+    <h1 class="entity-name">Edit</h1>
 
     {{ include('product_category/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('product_category_index') }}">back to list</a>
+        <br>
+
+        <a href="{{ path('product_category_index') }}"><button type="button" class="btn btn-primary">Back to list</button></a>
+
+        <br>
+        <br>
 
     {{ include('product_category/_delete_form.html.twig') }}
+
+    </div>
 
 {% endblock %}
