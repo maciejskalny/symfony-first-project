@@ -48,6 +48,11 @@ class ProductCategory
     private $last_modified_date;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
      */
     private $products;
@@ -113,6 +118,16 @@ class ProductCategory
     public function setLastModifiedDate()
     {
         $this->last_modified_date = new \DateTime();
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
     /**
