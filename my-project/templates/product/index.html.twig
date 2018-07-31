@@ -1,6 +1,20 @@
+{#
+This file shows all of the products
+@category View
+@Package Virtua_Internship
+@copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+@author Maciej Skalny contact@wearevirtua.com
+#}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Products{% endblock %}
+
+{% block header %}
+
+    <p class="title-of-page">Products</p>
+
+{% endblock %}
 
 {% block body %}
 
@@ -12,41 +26,40 @@
 
     {% endfor %}
 
-    <h1>Product index</h1>
+    <div class="jumbotron">
+    <h1 class="entity-name">Products</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>name</th>
-                <th>description</th>
-                <th>add_date</th>
-                <th>last_modified_date</th>
-                <th>category</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.AddDate ? product.AddDate|date('Y-m-d') : '' }}</td>
-                <td>{{ product.LastModifiedDate ? product.LastModifiedDate|date('Y-m-d') : '' }}</td>
-                <td><a href="{{ path('product_category_show', {'id': product.category.id}) }}">{{ product.category.name }}</a></td>
-                <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col entity-field">Id</div>
+        <div class="col entity-field">Name</div>
+        <div class="col entity-field">Description</div>
+        <div class="col entity-field">Created at</div>
+        <div class="col entity-field">Last modified date</div>
+        <div class="col entity-field">Category</div>
+        <div class="col entity-field">Actions</div>
+    </div>
 
-    <a href="{{ path('product_new') }}">Create new</a>
+    {% for product in products %}
+        <div class="row entity-list-item">
+            <div class="col">{{ product.id }}</div>
+            <div class="col">{{ product.name }}</div>
+            <div class="col">{{ product.description }}</div>
+            <div class="col">{{ product.AddDate ? product.AddDate|date('Y-m-d') : '' }}</div>
+            <div class="col">{{ product.LastModifiedDate ? product.LastModifiedDate|date('Y-m-d') : '' }}</div>
+            <div class="col"><a href="{{ path('product_category_show', {'id': product.category.id}) }}">{{ product.category.name }}</a></div>
+            <div class="col">
+                <a href="{{ path('product_show', {'id': product.id}) }}"><button type="button" class="btn btn-outline-primary">Show</button></a>
+                <a href="{{ path('product_edit', {'id': product.id}) }}"><button type="button" class="btn btn-outline-primary">Edit</button></a>
+            </div>
+        </div>
+    {% else %}
+            <p>no records found</p>
+    {% endfor %}
+
+        <br>
+
+        <a href="{{ path('product_new') }}"><button type="button" class="btn btn-primary">Create new</button></a>
+
+    </div>
+
 {% endblock %}

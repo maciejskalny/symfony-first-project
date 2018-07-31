@@ -1,0 +1,19 @@
+{#
+This file shows all of navigation items
+@category View
+@Package Virtua_Internship
+@copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+@author Maciej Skalny contact@wearevirtua.com
+#}
+
+
+        {% for product_category in categories %}
+
+                <a class="dropdown-item" href="{{ path('product_category_show', {'id': product_category.id}) }}">{{ product_category.name }}</a>
+                <div class="dropdown-divider"></div>
+
+            {% else %}
+
+            <p>No records found</p>
+
+        {% endfor %}

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * This file supports product form
+ * @category Form
+ * @Package Virtua_Internship
+ * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+ * @author Maciej Skalny contact@wearevirtua.com
+ */
+
 namespace App\Form;
 
 use App\Entity\ProductCategory;
