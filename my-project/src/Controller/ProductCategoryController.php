@@ -10,7 +10,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Images;
 use App\Entity\ProductCategory;
+use App\Form\ImageType;
 use App\Form\ProductCategoryType;
 use App\Repository\ProductCategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -38,12 +40,13 @@ class ProductCategoryController extends Controller
     {
         $ProductCategory = new ProductCategory();
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
+        //$form = $this->createForm(ImageType::class, new Images());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $file = $ProductCategory->getImage();
+            /*$file = $ProductCategory->getImage();
             $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
 
             $file->move(
@@ -51,7 +54,7 @@ class ProductCategoryController extends Controller
                 $fileName
             );
 
-            $ProductCategory->setImage($fileName);
+            $ProductCategory->setImage($fileName);*/
 
             $em->persist($ProductCategory);
             $em->flush();

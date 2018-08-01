@@ -49,24 +49,20 @@ class ProductCategory
     private $last_modified_date;
 
     /**
-     * @ORM\Column(type="string")
-     *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(
-     *     maxSize = 1M,
-     *     mimeTypes={ "image/png" }
-     *     )
-     */
-    private $image;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="category", orphanRemoval=true)
+     */
+    private $images;
+
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId()
@@ -127,16 +123,6 @@ class ProductCategory
         $this->last_modified_date = new \DateTime();
     }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
     /**
      * @return Collection|Product[]
      */
@@ -162,6 +148,37 @@ class ProductCategory
             // set the owning side to null (unless already changed)
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getCategory() === $this) {
+                $image->setCategory(null);
             }
         }
 

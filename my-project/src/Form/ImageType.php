@@ -11,32 +11,29 @@
 namespace App\Form;
 
 use App\Entity\Images;
-use App\Entity\ProductCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class ProductCategoryType extends AbstractType
+class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('images', CollectionType::class, array(
-                'entry_type' => ImageType::class,
-                'entry_options' => array('label' => false),
-                'allow_add' => true,
+            ->add('name', TextType::class, array(
+            'label' => false,
             ))
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ProductCategory::class,
+            'data_class' => Images::class,
         ]);
     }
 }
