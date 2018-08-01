@@ -50,11 +50,9 @@ class ProductCategoryController extends Controller
 
             foreach($images as $image)
             {
-               // $fileName = $image->generateUniqueFileName().'.'.$image->guessExtension();
-
                 $file = new Image();
 
-                $file->setName($image);
+                $file->setName($image.".png");
 
                 $ProductCategory->addImage($file);
 
@@ -62,6 +60,8 @@ class ProductCategoryController extends Controller
                     $this->getParameter('images_directory'),
                     $file->getName()
                 );
+
+                $file->setName(substr(strrchr($image, "/"), 1).".png");
             }
 
             $em->persist($ProductCategory);
