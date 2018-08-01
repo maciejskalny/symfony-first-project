@@ -54,15 +54,15 @@ class ProductCategory
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Images", mappedBy="category", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
      */
-    private $images;
+    private $image;
 
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->images = new ArrayCollection();
+        $this->image = new ArrayCollection();
     }
 
     public function getId()
@@ -155,27 +155,27 @@ class ProductCategory
     }
 
     /**
-     * @return Collection|Images[]
+     * @return Collection|Image[]
      */
-    public function getImages(): Collection
+    public function getImage(): Collection
     {
-        return $this->images;
+        return $this->image;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Image $image): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        if (!$this->image->contains($image)) {
+            $this->image[] = $image;
             $image->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Image $image): self
     {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
+        if ($this->image->contains($image)) {
+            $this->image->removeElement($image);
             // set the owning side to null (unless already changed)
             if ($image->getCategory() === $this) {
                 $image->setCategory(null);

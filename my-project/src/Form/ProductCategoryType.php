@@ -10,7 +10,7 @@
 
 namespace App\Form;
 
-use App\Entity\Images;
+use App\Entity\Image;
 use App\Entity\ProductCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,10 +25,11 @@ class ProductCategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('images', CollectionType::class, array(
-                'entry_type' => ImageType::class,
+            ->add('image_files', CollectionType::class, array(
+                'entry_type' => FileType::class,
                 'entry_options' => array('label' => false),
                 'allow_add' => true,
+                'mapped' =>false
             ))
         ;
     }

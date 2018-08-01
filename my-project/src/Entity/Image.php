@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ImagesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
-class Images
+class Image
 {
     /**
      * @ORM\Id()
@@ -22,7 +22,7 @@ class Images
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductCategory", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductCategory", inversedBy="image")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

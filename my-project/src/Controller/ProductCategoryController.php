@@ -10,7 +10,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Images;
+use App\Entity\Image;
 use App\Entity\ProductCategory;
 use App\Form\ImageType;
 use App\Form\ProductCategoryType;
@@ -40,21 +40,24 @@ class ProductCategoryController extends Controller
     {
         $ProductCategory = new ProductCategory();
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
-        //$form = $this->createForm(ImageType::class, new Images());
+        //$form = $this->createForm(ImageType::class, new Image());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            /*$file = $ProductCategory->getImage();
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+            $images = $form->get('image_files')->getData();
 
-            $file->move(
-                $this->getParameter('images_directory'),
-                $fileName
-            );
+            foreach($images as $image)
+            {
+                $fileName = $image->generateUniqueFileName().'.'.$image->guessExtension();
+                
+                $file = new Image();
 
-            $ProductCategory->setImage($fileName);*/
+                $file->setName($image);
+
+                $ProductCategory->addImage($file);
+            }
 
             $em->persist($ProductCategory);
             $em->flush();
