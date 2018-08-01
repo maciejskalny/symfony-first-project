@@ -52,7 +52,10 @@ class ProductCategory
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "image/png" })
+     * @Assert\File(
+     *     maxSize = 1M,
+     *     mimeTypes={ "image/png" }
+     *     )
      */
     private $image;
 
