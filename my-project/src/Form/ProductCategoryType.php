@@ -32,7 +32,7 @@ class ProductCategoryType extends AbstractType
             ->add('description')
             ->add('mainImage', FileType::class, array(
                 'required' => false,
-                'data_class' => null
+                'data_class' => null,
             ))
             ->add('image_files', CollectionType::class, array(
                 'entry_type' => FileType::class,
@@ -63,11 +63,3 @@ class ProductCategoryType extends AbstractType
         ]);
     }
 }
-
-
-/*'constraints'=>array(
-    new Collection([
-        new File([
-            'maxSize' => '1M',
-            'maxSizeMessage' => 'Too large file'
-        ]))])*/

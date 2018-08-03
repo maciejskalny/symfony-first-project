@@ -33,7 +33,7 @@ class ImagesCollection
 
             $file = new Image();
             $ext = $image->guessExtension();
-            $file->setName($image.".".$image->guessExtension());
+            $file->setName($image.".".$ext);
 
             $ProductCategory->addImage($file);
 
