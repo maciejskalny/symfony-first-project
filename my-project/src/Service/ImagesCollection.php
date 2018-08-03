@@ -15,34 +15,34 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class MainImage
+class ImagesCollection
 {
+
     private $imagesDirectory;
 
     public function __construct($imagesDirectory)
     {
         $this->imagesDirectory = $imagesDirectory;
     }
+    public function addingImagesCollection($ProductCategory, $images){
 
-    public function addingMainImage($ProductCategory, $mainImage)
-    {
         $parameterValue = $this->imagesDirectory;
 
-        $ext = $mainImage->guessExtension();
-        $mainImageName = $mainImage.'.'.$ext;
-        $ProductCategory->setMainImage($mainImage . '.' .$ext);
+        foreach($images as $image)
+        {
 
-        $mainImage->move(
-            $parameterValue,
-            $mainImageName
-        );
+            $file = new Image();
+            $ext = $image->guessExtension();
+            $file->setName($image.".".$image->guessExtension());
 
-        $ProductCategory->setMainImage(substr(strrchr($mainImage, "/"), 1) . '.' . $ext);
+            $ProductCategory->addImage($file);
 
-        $file = new Image();
-        $file->setName(substr(strrchr($mainImage, "/"), 1) . '.' . $ext);
-        $ProductCategory->addImage($file);
+            $image->move(
+                $parameterValue,
+                $file->getName()
+            );
+
+            $file->setName(substr(strrchr($image, "/"), 1).'.'.$ext);
+        }
     }
 }
-
-

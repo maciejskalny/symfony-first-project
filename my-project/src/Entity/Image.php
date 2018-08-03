@@ -19,11 +19,6 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(
-     *     maxSize = "1M",
-     *     mimeTypes={ "image/png" }
-     *     )
      */
     private $name;
 

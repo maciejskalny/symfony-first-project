@@ -58,6 +58,18 @@ class ProductCategory
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *   @Assert\File(
+     *     maxSize = "400k",
+     *     maxSizeMessage = "Too large file",
+     *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"},
+     *     mimeTypesMessage = "Your file must be a .pdf, .jpg or .jpeg!",
+     * )
+     */
+
+    private $main_image;
+
 
     public function __construct()
     {
@@ -181,6 +193,18 @@ class ProductCategory
                 $image->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMainImage(): ?string
+    {
+        return $this->main_image;
+    }
+
+    public function setMainImage(?string $main_image): self
+    {
+        $this->main_image = $main_image;
 
         return $this;
     }
