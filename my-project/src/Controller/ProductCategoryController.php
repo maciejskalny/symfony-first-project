@@ -129,23 +129,4 @@ class ProductCategoryController extends Controller
 
         return $this->redirectToRoute('product_category_index');
     }
-
-    /**
-     * @Route("/{id}/delete", name="gallery_image_delete", methods="DELETE")
-     */
-    public function deleteGalleryImage(Request $request, Image $image)
-    {
-        if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($image);
-            $em->flush();
-
-            $this->addFlash(
-                'notice',
-                'Deleted successfully.'
-            );
-        }
-
-        return $this->redirectToRoute('product_category_edit');
-    }
 }
