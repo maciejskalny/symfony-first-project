@@ -49,7 +49,7 @@ This file shows one of the category
     <span class="entity-list">
     {% for product in product_category.products %}
 
-        <li class="entity-list-item"><a href="{{ path('product_show', {'id': product.id}) }}">{{ product.name }}</a></li>
+        <li class="entity-list-item"><a href="{{ path('product_show', {'id': product.id}) }}">{{ product.name }}</a>{{ include('wishlist/_additem_form.html.twig') }}</li>
 
     {% else %}
 
