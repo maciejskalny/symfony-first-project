@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\ProductCategory;
-use App\Form\Image1Type;
 use App\Repository\ImageRepository;
 use App\Service\ImagesCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,7 +24,6 @@ class ImageController extends Controller
      */
     public function delete(Request $request, Image $image, ImagesCollection $imagesCollection): Response
     {
-
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
 
