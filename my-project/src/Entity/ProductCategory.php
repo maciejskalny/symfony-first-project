@@ -13,6 +13,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCategoryRepository")
@@ -52,9 +53,28 @@ class ProductCategory
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *   @Assert\File(
+     *     maxSize = "400k",
+     *     maxSizeMessage = "Too large file",
+     *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"},
+     *     mimeTypesMessage = "Your file must be a .pdf, .jpg or .jpeg!",
+     * )
+     */
+
+    private $main_image;
+
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->image = new ArrayCollection();
     }
 
     public function getId()
@@ -142,6 +162,49 @@ class ProductCategory
                 $product->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->image->contains($image)) {
+            $this->image[] = $image;
+            $image->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->image->contains($image)) {
+            $this->image->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getCategory() === $this) {
+                $image->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMainImage(): ?string
+    {
+        return $this->main_image;
+    }
+
+    public function setMainImage(?string $main_image): self
+    {
+        $this->main_image = $main_image;
 
         return $this;
     }

@@ -10,13 +10,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\ProductCategory;
+use App\Form\ImageType;
 use App\Form\ProductCategoryType;
 use App\Repository\ProductCategoryRepository;
+use App\Service\ImagesCollection;
+use App\Service\MainImage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/category")
@@ -34,7 +39,7 @@ class ProductCategoryController extends Controller
     /**
      * @Route("/new", name="product_category_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ImagesCollection $imagesCollection, MainImage $mainImage): Response
     {
         $ProductCategory = new ProductCategory();
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
@@ -42,6 +47,13 @@ class ProductCategoryController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            if(!is_null($form->get('mainImage')->getData()))
+            $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
+
+            if(!is_null($form->get('image_files')->getData()))
+            $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
+
             $em->persist($ProductCategory);
             $em->flush();
 
@@ -70,12 +82,20 @@ class ProductCategoryController extends Controller
     /**
      * @Route("/{id}/edit", name="product_category_edit", methods="GET|POST")
      */
-    public function edit(Request $request, ProductCategory $ProductCategory): Response
+    public function edit(Request $request, ProductCategory $ProductCategory, ImagesCollection $imagesCollection, MainImage $mainImage): Response
     {
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+
+            if(!is_null($form->get('mainImage')->getData()))
+                $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
+
+            if(!is_null($form->get('image_files')->getData()))
+                $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
+
+            $em->flush();
 
             $this->addFlash(
                 'notice',
@@ -108,5 +128,24 @@ class ProductCategoryController extends Controller
         }
 
         return $this->redirectToRoute('product_category_index');
+    }
+
+    /**
+     * @Route("/{id}/delete", name="gallery_image_delete", methods="DELETE")
+     */
+    public function deleteGalleryImage(Request $request, Image $image)
+    {
+        if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+
+            $this->addFlash(
+                'notice',
+                'Deleted successfully.'
+            );
+        }
+
+        return $this->redirectToRoute('product_category_edit');
     }
 }
