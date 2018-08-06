@@ -35,6 +35,11 @@ class ProductImageController extends Controller
 
             $em->remove($productImage);
             $em->flush();
+
+            $this->addFlash(
+                'notice',
+                'Image deleted successfully.'
+            );
         }
 
         return $this->redirectToRoute('product_edit', ['id' => $product->getId()]);

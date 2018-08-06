@@ -37,6 +37,11 @@ class ImageController extends Controller
             $em->flush();
         }
 
+        $this->addFlash(
+            'notice',
+            'Image deleted successfully.'
+        );
+
         return $this->redirectToRoute('product_category_edit', ['id' => $category->getId()]);
     }
 }
