@@ -28,9 +28,14 @@ class MainImage
     {
         $parameterValue = $this->imagesDirectory;
 
+        $file = new Image();
+
         $ext = $mainImage->guessExtension();
         $mainImageName = $mainImage.'.'.$ext;
         $ProductCategory->setMainImage($mainImage . '.' .$ext);
+
+        $file->setName($mainImage . '.' .$ext);
+        $ProductCategory->addImage($file);
 
         $mainImage->move(
             $parameterValue,

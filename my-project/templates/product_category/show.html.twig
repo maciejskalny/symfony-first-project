@@ -60,15 +60,21 @@ This file shows one of the category
 
         <p class="entity-field">Images:</p>
         <span class="entity-list">
+            <div class="row">
+
     {% for image in product_category.image %}
 
-        <li class="entity-list-item">{{ image.name }}</li>
+        <div class="gallery_product col-lg-2 col-md-2 col-sm-2 col-xs-6 filter hdpe">
+                <img width="100px" height="100px" src="{{ asset('uploads/images/') }}{{ image.name }}" class="img-responsive">
+            </div>
 
     {% else %}
 
         <li>no images found</li><br>
 
     {% endfor %}
+                
+        </div>
     </span>
 
         <br>
