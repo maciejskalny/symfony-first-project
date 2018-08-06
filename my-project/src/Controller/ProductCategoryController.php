@@ -48,10 +48,10 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData()))
+            if(!empty($form->get('mainImage')->getData()))
             $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
 
-            if(!is_null($form->get('image_files')->getData()))
+            if(!empty($form->get('image_files')->getData()))
             $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
 
             $em->persist($ProductCategory);
@@ -89,10 +89,10 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData()))
+            if(!empty($form->get('mainImage')->getData()))
                 $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
 
-            if(!is_null($form->get('image_files')->getData()))
+            if(!empty($form->get('image_files')->getData()))
                 $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
 
             $em->flush();

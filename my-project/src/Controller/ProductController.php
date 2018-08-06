@@ -13,6 +13,8 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\ProductImagesCollection;
+use App\Service\ProductMainImage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +36,7 @@ class ProductController extends Controller
     /**
      * @Route("/new", name="product_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ProductImagesCollection $productImagesCollection, ProductMainImage $productMainImage): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -42,6 +44,13 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            if(!empty($form->get('mainImage')->getData()))
+                $productMainImage->addingProductMainImage($product, $form->get('mainImage')->getData());
+
+            if(!empty($form->get('image_files')->getData()))
+                $productImagesCollection->addingProductImagesCollection($product, $form->get('image_files')->getData());
+
             $em->persist($product);
             $em->flush();
 
@@ -72,14 +81,22 @@ class ProductController extends Controller
     /**
      * @Route("/{id}/edit", name="product_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Product $product): Response
+    public function edit(Request $request, Product $product, ProductImagesCollection $productImagesCollection, ProductMainImage $productMainImage): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+
+            if(!empty($form->get('mainImage')->getData()))
+                $productMainImage->addingProductMainImage($product, $form->get('mainImage')->getData());
+
+            if(!empty($form->get('image_files')->getData()))
+                $productImagesCollection->addingProductImagesCollection($product, $form->get('image_files')->getData());
+
+            $em->flush();
 
             $this->addFlash(
                 'notice',

@@ -8,14 +8,14 @@
 
 namespace App\Service;
 
-use App\Entity\Image;
-use App\Entity\ProductCategory;
+use App\Entity\ProductImage;
+use App\Entity\Product;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class MainImage
+class ProductMainImage
 {
     private $imagesDirectory;
 
@@ -24,24 +24,24 @@ class MainImage
         $this->imagesDirectory = $imagesDirectory;
     }
 
-    public function addingMainImage($ProductCategory, $mainImage)
+    public function addingProductMainImage($product, $mainImage)
     {
         $parameterValue = $this->imagesDirectory;
 
-        $file = new Image();
+        $file = new ProductImage();
 
         $ext = $mainImage->guessExtension();
-        $ProductCategory->setMainImage($mainImage . '.' .$ext);
+        $product->setMainImage($mainImage . '.' .$ext);
 
         $file->setName($mainImage . '.' .$ext);
-        $ProductCategory->addImage($file);
+        $product->addImage($file);
 
         $mainImage->move(
             $parameterValue,
             $file->getName()
         );
 
-        $ProductCategory->setMainImage(substr(strrchr($mainImage, "/"), 1) . '.' . $ext);
+        $product->setMainImage(substr(strrchr($mainImage, "/"), 1) . '.' . $ext);
         $file->setName(substr(strrchr($mainImage, "/"), 1) . '.' . $ext);
     }
 }
