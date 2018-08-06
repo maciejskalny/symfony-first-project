@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ImagesCollection
 {
@@ -46,4 +47,14 @@ class ImagesCollection
             $file->setName(substr(strrchr($image, "/"), 1).'.'.$ext);
         }
     }
+
+    public function removeImage($image)
+    {
+        $parameterValue = $this->imagesDirectory;
+        $file = new Filesystem();
+
+        $file->remove($parameterValue.'/'.$image->getName());
+
+    }
+
 }
