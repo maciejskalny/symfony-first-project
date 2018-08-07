@@ -54,9 +54,54 @@ class WishlistController extends Controller
 
         $session->set('wishlist', $wishlist);
 
+        $em = $this->getDoctrine()->getManager();
+
         return $this->render('wishlist/index.html.twig', [
             'controller_name' => 'WishlistController',
-            'wishlist' => $session->get('wishlist')
+            'wishlist' => $session->get('wishlist'),
+            'products' => $em->getRepository(Product::class)->findBy(['id' => $session->get('wishlist')])
         ]);
     }
+
+    /**
+     * @Route("/wishlist/delete/{id}", name="wishlist_delete", methods="GET|POST")
+     */
+    public function delete(Session $session, $id)
+    {
+        if(!$session->isStarted()) {
+            return $this->render('wishlist/index.html.twig');
+        }
+
+        if($session->has('wishlist')) {
+            $wishlist = $session->get('wishlist');
+        }
+
+
+        unset($wishlist[array_search($id, $wishlist)]);
+
+        $session->set('wishlist', $wishlist);
+
+        return $this->redirectToRoute('wishlist');
+    }
+
+    /**
+     * @Route("/wishlist/delete", name="wishlist_delete_all", methods="GET|POST")
+     */
+    public function deleteAll(Session $session)
+    {
+        if(!$session->isStarted()) {
+            return $this->render('wishlist/index.html.twig');
+        }
+
+        if($session->has('wishlist')) {
+            $wishlist = $session->get('wishlist');
+        }
+
+
+        $session->remove('wishlist');
+
+        return $this->redirectToRoute('wishlist');
+    }
+
+
 }
