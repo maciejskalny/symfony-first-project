@@ -24,7 +24,7 @@ class WishlistController extends Controller
         return $this->render('wishlist/index.html.twig', [
             'controller_name' => 'WishlistController',
             'wishlist' => $session->get('wishlist'),
-            'products' => $em->getRepository(Product::class)->findAll()
+            'products' => $em->getRepository(Product::class)->findBy(['id' => $session->get('wishlist')])
         ]);
     }
 
