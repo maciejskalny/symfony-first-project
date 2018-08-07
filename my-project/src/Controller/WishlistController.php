@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,9 +18,13 @@ class WishlistController extends Controller
      */
     public function index(Session $session)
     {
+        $em = $this->getDoctrine()->getManager();
+
+
         return $this->render('wishlist/index.html.twig', [
             'controller_name' => 'WishlistController',
-            'wishlist' => $session->get('wishlist')
+            'wishlist' => $session->get('wishlist'),
+            'products' => $em->getRepository(Product::class)->findAll()
         ]);
     }
 

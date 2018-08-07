@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Wishlist{% endblock %}
+
+{% block header %}
+
+    <p class="title-of-page">Wishlist</p>
+
+{% endblock %}
 
 {% block body %}
 <style>
@@ -8,19 +14,40 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="jumbotron">
+        <h1 class="entity-name">Your wishlist.</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/WishlistController.php'|file_link(0) }}">src/Controller/WishlistController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/wishlist/index.html.twig'|file_link(0) }}">templates/wishlist/index.html.twig</a></code></li>
-    </ul>
+        <div class="row">
+            <div class="col entity-field"></div>
+            <div class="col entity-field">Name</div>
+            {#<div class="col entity-field">Description</div>#}
+            {#<div class="col entity-field">Created at</div>#}
+            {#<div class="col entity-field">Last modified date</div>#}
+            {#<div class="col entity-field">Category</div>#}
+            <div class="col entity-field">Actions</div>
+        </div>
 
-    {% for item in wishlist %}
+        {% for item in wishlist %}
 
-        <p>{{ item }}</p>
+            {% for product in products %}
 
-    {% endfor %}
-</div>
+                {% if product.id == item %}
+        <div class="row entity-list-item">
+
+            <div class="col">
+                <div class="main-image"></div>
+            </div>
+
+            <div class="col">{{ product.name }}</div>
+                {% endif %}
+                {% endfor %}
+
+        </div>
+            {% else %}
+
+            <p>Your wishlist is empty, please return to categories to continue shopping.</p>
+
+        {% endfor %}
+
+    </div>
 {% endblock %}
