@@ -34,7 +34,7 @@ class WishlistController extends Controller
     }
 
     /**
-     * @Route("/wishlist/add/{id}", name="wishlist_add", methods="GET|POST")
+     * @Route("/wishlist/add/{id}", name="wishlist_add", methods="POST")
      */
     public function new(Session $session, $id)
     {
@@ -50,9 +50,14 @@ class WishlistController extends Controller
             $wishlist = array();
         }
 
-        array_push($wishlist, $id);
+        if(count($wishlist)<5) {
+            array_push($wishlist, $id);
+            $session->set('wishlist', $wishlist);
+        }
 
-        $session->set('wishlist', $wishlist);
+        else{
+            $session->getFlashBag()->add('error', 'You can add only 5 products to the wishlist.');
+        }
 
         $em = $this->getDoctrine()->getManager();
 
