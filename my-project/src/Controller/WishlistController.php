@@ -20,7 +20,6 @@ class WishlistController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-
         return $this->render('wishlist/index.html.twig', [
             'controller_name' => 'WishlistController',
             'wishlist' => $session->get('wishlist'),

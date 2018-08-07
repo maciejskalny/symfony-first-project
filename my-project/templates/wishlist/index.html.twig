@@ -27,11 +27,9 @@
             <div class="col entity-field">Actions</div>
         </div>
 
-        {% for item in wishlist %}
+        {% for product in products %}
 
-            {% for product in products %}
 
-                {% if product.id == item %}
         <div class="row entity-list-item">
 
             <div class="col">
@@ -39,8 +37,9 @@
             </div>
 
             <div class="col">{{ product.name }}</div>
-                {% endif %}
-                {% endfor %}
+
+            <div class="col"></div>
+
 
         </div>
             {% else %}
