@@ -6,8 +6,7 @@ This file renders form which is responsible for deleting another product
 @author Maciej Skalny contact@wearevirtua.com
 #}
 
-<form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return 'Product added successfully'">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+<form method="post" action="{{ path('wishlist_add', {'id': product.id}) }}">
+    <input type="hidden" name="product" value="{{ product.id }}">
     <button class="btn btn-warning">Add to wishlist</button>
 </form>
