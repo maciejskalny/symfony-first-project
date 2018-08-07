@@ -50,7 +50,7 @@ class WishlistController extends Controller
             $wishlist = array();
         }
 
-        if(count($wishlist)<5) {
+        if(sizeof($wishlist)<5) {
             array_push($wishlist, $id);
             $session->set('wishlist', $wishlist);
         }
@@ -81,10 +81,16 @@ class WishlistController extends Controller
             $wishlist = $session->get('wishlist');
         }
 
-
         unset($wishlist[array_search($id, $wishlist)]);
 
-        $session->set('wishlist', $wishlist);
+        if(sizeof($wishlist) == NULL)
+        {
+            $session->remove('wishlist');
+        }
+
+        else {
+            $session->set('wishlist', $wishlist);
+        }
 
         return $this->redirectToRoute('wishlist');
     }
