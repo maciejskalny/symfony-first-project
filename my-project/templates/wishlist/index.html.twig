@@ -17,9 +17,9 @@
         <li>Your template at <code><a href="{{ 'templates/wishlist/index.html.twig'|file_link(0) }}">templates/wishlist/index.html.twig</a></code></li>
     </ul>
 
-    {% for product in products %}
+    {% for item in wishlist %}
 
-        <p>{{ product }}</p>
+        <p>{{ item }}</p>
 
     {% endfor %}
 </div>

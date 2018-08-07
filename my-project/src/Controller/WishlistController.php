@@ -11,42 +11,42 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WishlistController extends Controller
 {
-//    /**
-//     * @Route("/wishlist", name="wishlist")
-//     */
-//    public function index(Session $session)
-//    {
-//        $session->start();
-//        return $this->render('wishlist/index.html.twig', [
-//            'controller_name' => 'WishlistController',
-//            'products' => $session->get('product')
-//        ]);
-//    }
 
     /**
-     * @Route("/wishlist/{id}", name="wishlist_add", methods="GET|POST")
+     * @Route("/wishlist", name="wishlist")
      */
-    public function new(Session $session, $id)
+    public function index(Session $session)
     {
-
-        if(!$session->isStarted())
-        $session->start();
-
-        if($session->has('products'))
-        $products = $session->get('products');
-
-        else
-            $products = array();
-
-            array_push($products, $id);
-
-
-            $session->set('products', $products);
-
         return $this->render('wishlist/index.html.twig', [
             'controller_name' => 'WishlistController',
-            'products' => $session->get('products')
+            'wishlist' => $session->get('wishlist')
         ]);
     }
 
+    /**
+     * @Route("/wishlist/add/{id}", name="wishlist_add", methods="GET|POST")
+     */
+    public function new(Session $session, $id)
+    {
+        if(!$session->isStarted()) {
+            $session->start();
+        }
+
+        if($session->has('wishlist')) {
+        $wishlist = $session->get('wishlist');
+        }
+
+        else {
+            $wishlist = array();
+        }
+
+        array_push($wishlist, $id);
+
+        $session->set('wishlist', $wishlist);
+
+        return $this->render('wishlist/index.html.twig', [
+            'controller_name' => 'WishlistController',
+            'wishlist' => $session->get('wishlist')
+        ]);
+    }
 }

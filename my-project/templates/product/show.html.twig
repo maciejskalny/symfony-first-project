@@ -50,20 +50,20 @@ This file shows one of products
         <span class="entity-list">
             <div class="row">
 
-    {% for image in product.image %}
+                {% for image in product.image %}
 
-        <div class="gallery_product col-lg-2 col-md-2 col-sm-2 col-xs-6 filter hdpe">
-                <img width="100px" height="100px" src="{{ asset('uploads/images/') }}{{ image.name }}" class="img-responsive">
+                    <div class="gallery_product col-lg-2 col-md-2 col-sm-2 col-xs-6 filter hdpe">
+                            <img width="100px" height="100px" src="{{ asset('uploads/images/') }}{{ image.name }}" class="img-responsive">
+                        </div>
+
+                {% else %}
+
+                    <li>no images found</li><br>
+
+                {% endfor %}
+
             </div>
-
-    {% else %}
-
-        <li>no images found</li><br>
-
-    {% endfor %}
-
-        </div>
-    </span>
+        </span>
 
 
         <br>
@@ -83,7 +83,7 @@ This file shows one of products
         <br>
         <br>
 
-    {{ include('product/_delete_form.html.twig') }}
+        {{ include('product/_delete_form.html.twig') }}
 
     </div>
 
