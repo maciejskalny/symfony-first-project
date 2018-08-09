@@ -56,7 +56,7 @@ class ProductCategory
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
      */
-    private $image;
+    private $images;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -73,7 +73,7 @@ class ProductCategory
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->image = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -197,9 +197,19 @@ class ProductCategory
     /**
      * @return Collection|Image[]
      */
-    public function getImage(): Collection
+    public function getImages(): Collection
     {
-        return $this->image;
+        return $this->images;
+    }
+
+    /**
+     * @param ArrayCollection $images
+     * @return $this
+     */
+    public function addImages(ArrayCollection $images)
+    {
+        $this->images = $images;
+        return $this;
     }
 
     /**
@@ -208,8 +218,8 @@ class ProductCategory
      */
     public function addImage(Image $image): self
     {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
             $image->setCategory($this);
         }
 
@@ -222,8 +232,8 @@ class ProductCategory
      */
     public function removeImage(Image $image): self
     {
-        if ($this->image->contains($image)) {
-            $this->image->removeElement($image);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
             if ($image->getCategory() === $this) {
                 $image->setCategory(null);
