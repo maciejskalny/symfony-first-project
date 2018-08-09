@@ -67,7 +67,6 @@ class ProductCategory
      *     mimeTypesMessage = "Your file must be a .pdf, .jpg or .jpeg!",
      * )
      */
-
     private $main_image;
 
 
@@ -77,16 +76,26 @@ class ProductCategory
         $this->image = new ArrayCollection();
     }
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return ProductCategory
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -94,11 +103,18 @@ class ProductCategory
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param null|string $description
+     * @return ProductCategory
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -106,6 +122,9 @@ class ProductCategory
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getAddDate(): ?\DateTimeInterface
     {
         return $this->add_date;
@@ -114,12 +133,14 @@ class ProductCategory
     /**
      * @ORM\PrePersist
      */
-
     public function setAddDate()
     {
         $this->add_date = new \DateTime();
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getLastModifiedDate(): ?\DateTimeInterface
     {
         return $this->last_modified_date;
@@ -129,7 +150,6 @@ class ProductCategory
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-
     public function setLastModifiedDate()
     {
         $this->last_modified_date = new \DateTime();
@@ -143,6 +163,10 @@ class ProductCategory
         return $this->products;
     }
 
+    /**
+     * @param Product $product
+     * @return ProductCategory
+     */
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
@@ -153,6 +177,10 @@ class ProductCategory
         return $this;
     }
 
+    /**
+     * @param Product $product
+     * @return ProductCategory
+     */
     public function removeProduct(Product $product): self
     {
         if ($this->products->contains($product)) {
@@ -174,6 +202,10 @@ class ProductCategory
         return $this->image;
     }
 
+    /**
+     * @param Image $image
+     * @return ProductCategory
+     */
     public function addImage(Image $image): self
     {
         if (!$this->image->contains($image)) {
@@ -184,6 +216,10 @@ class ProductCategory
         return $this;
     }
 
+    /**
+     * @param Image $image
+     * @return ProductCategory
+     */
     public function removeImage(Image $image): self
     {
         if ($this->image->contains($image)) {
@@ -197,11 +233,18 @@ class ProductCategory
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getMainImage(): ?string
     {
         return $this->main_image;
     }
 
+    /**
+     * @param null|string $main_image
+     * @return ProductCategory
+     */
     public function setMainImage(?string $main_image): self
     {
         $this->main_image = $main_image;

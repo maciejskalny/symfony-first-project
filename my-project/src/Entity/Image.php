@@ -28,16 +28,26 @@ class Image
      */
     private $category;
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Image
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -45,11 +55,18 @@ class Image
         return $this;
     }
 
+    /**
+     * @return ProductCategory|null
+     */
     public function getCategory(): ?ProductCategory
     {
         return $this->category;
     }
 
+    /**
+     * @param ProductCategory|null $category
+     * @return Image
+     */
     public function setCategory(?ProductCategory $category): self
     {
         $this->category = $category;

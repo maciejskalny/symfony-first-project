@@ -16,12 +16,10 @@ use App\Form\ImageType;
 use App\Form\ProductCategoryType;
 use App\Repository\ProductCategoryRepository;
 use App\Service\ImagesCollection;
-use App\Service\MainImage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 /**
  * @Route("/category")
@@ -39,7 +37,7 @@ class ProductCategoryController extends Controller
     /**
      * @Route("/new", name="product_category_new", methods="GET|POST")
      */
-    public function new(Request $request, ImagesCollection $imagesCollection, MainImage $mainImage): Response
+    public function new(Request $request, ImagesCollection $image): Response
     {
         $ProductCategory = new ProductCategory();
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
@@ -48,11 +46,22 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData()))
-            $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
+            $mainImg = $form->get('mainImage')->getData();
 
-            if(!is_null($form->get('image_files')->getData()))
-            $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
+            if(!is_null($mainImg)) {
+                $mainImage = $image->createImage($mainImg);
+                $ProductCategory->addImage($mainImage);
+                $ProductCategory->setMainImage($mainImage->getName());
+            }
+
+            $colImg = $form->get('image_files')->getData();
+
+            if(!is_null($colImg)){
+                foreach ($colImg as $img)
+                {
+                    $ProductCategory->addImage($image->createImage($img));
+                }
+            }
 
             $em->persist($ProductCategory);
             $em->flush();
@@ -82,18 +91,18 @@ class ProductCategoryController extends Controller
     /**
      * @Route("/{id}/edit", name="product_category_edit", methods="GET|POST")
      */
-    public function edit(Request $request, ProductCategory $ProductCategory, ImagesCollection $imagesCollection, MainImage $mainImage): Response
+    public function edit(Request $request, ProductCategory $ProductCategory): Response
     {
         $form = $this->createForm(ProductCategoryType::class, $ProductCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData()))
-                $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
-
-            if(!is_null($form->get('image_files')->getData()))
-                $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
+//            if(!is_null($form->get('mainImage')->getData()))
+//                $mainImage->addingMainImage($ProductCategory, $form->get('mainImage')->getData());
+//
+//            if(!is_null($form->get('image_files')->getData()))
+//                $imagesCollection->addingImagesCollection($ProductCategory, $form->get('image_files')->getData());
 
             $em->flush();
 
