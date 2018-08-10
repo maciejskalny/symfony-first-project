@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file supports product category form
  * @category Form
@@ -55,7 +54,6 @@ class ProductCategoryType extends AbstractType
                 'mapped' =>false,
             ));
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

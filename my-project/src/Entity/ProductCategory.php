@@ -14,6 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinColumns;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCategoryRepository")
@@ -54,11 +57,6 @@ class ProductCategory
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
-     */
-    private $images;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *   @Assert\File(
      *     maxSize = "400k",
@@ -69,6 +67,13 @@ class ProductCategory
      */
     private $main_image;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="images_categories",
+     *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)})
+     */
+    private $images;
 
     public function __construct()
     {
@@ -220,9 +225,7 @@ class ProductCategory
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setCategory($this);
         }
-
         return $this;
     }
 
@@ -234,10 +237,6 @@ class ProductCategory
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getCategory() === $this) {
-                $image->setCategory(null);
-            }
         }
 
         return $this;

@@ -66,7 +66,7 @@ class ImagesActions
      * @param $image
      * @return Image
      */
-    public function createImage(UploadedFile $image)
+    public function createImage($image)
     {
         $parameterValue = $this->imagesDirectory;
 
@@ -74,10 +74,11 @@ class ImagesActions
 
         $ext = $image->guessExtension();
         $file->setName($image.'.'.$ext);
+        $test = $file->getName();
 
         $image->move(
             $parameterValue,
-            $file->getName()
+            $test
         );
 
         $file->setName(substr(strrchr($image, "/"), 1).'.'.$ext);

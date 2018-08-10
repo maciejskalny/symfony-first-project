@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinColumns;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -21,12 +24,6 @@ class Image
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductCategory", inversedBy="image")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $category;
 
     /**
      * @return mixed
@@ -51,25 +48,6 @@ class Image
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return ProductCategory|null
-     */
-    public function getCategory(): ?ProductCategory
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param ProductCategory|null $category
-     * @return Image
-     */
-    public function setCategory(?ProductCategory $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
