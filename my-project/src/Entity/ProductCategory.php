@@ -57,15 +57,16 @@ class ProductCategory
     private $products;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *   @Assert\File(
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="main_image_id", referencedColumnName="id")
+     * @Assert\File(
      *     maxSize = "400k",
      *     maxSizeMessage = "Too large file",
      *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"},
      *     mimeTypesMessage = "Your file must be a .pdf, .jpg or .jpeg!",
-     * )
+     *     )
      */
-    private $main_image;
+    private $mainImage;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
@@ -221,18 +222,6 @@ class ProductCategory
      * @param Image $image
      * @return ProductCategory
      */
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-        }
-        return $this;
-    }
-
-    /**
-     * @param Image $image
-     * @return ProductCategory
-     */
     public function removeImage(Image $image): self
     {
         if ($this->images->contains($image)) {
@@ -243,21 +232,21 @@ class ProductCategory
     }
 
     /**
-     * @return null|string
+     * @return Image|null
      */
-    public function getMainImage(): ?string
+    public function getMainImage(): ?Image
     {
-        return $this->main_image;
+        return $this->mainImage;
     }
 
     /**
-     * @param null|string $main_image
+     * @param Image|null $mainImage
      * @return ProductCategory
      */
-    public function setMainImage(?string $main_image): self
+    public function setMainImage(?Image $mainImage): self
     {
-        $this->main_image = $main_image;
-
+        $this->mainImage = $mainImage;
+        $this->images = $mainImage;
         return $this;
     }
 }

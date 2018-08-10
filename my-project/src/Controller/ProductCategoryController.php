@@ -48,8 +48,7 @@ class ProductCategoryController extends Controller
 
             if(!is_null($form->get('mainImage')->getData())) {
                 $mainImage = $imagesActionsService->createImage($form->get('mainImage')->getData());
-                $productCategory->addImage($mainImage);
-                $productCategory->setMainImage($mainImage->getName());
+                $productCategory->setMainImage($mainImage);
             }
 
             if(!is_null($form->get('image_files')->getData())){
@@ -93,8 +92,7 @@ class ProductCategoryController extends Controller
 
             if(!is_null($form->get('mainImage')->getData())) {
                 $mainImage = $imagesActionsService->createImage($form->get('mainImage')->getData());
-                $productCategory->addImage($mainImage);
-                $productCategory->setMainImage($mainImage->getName());
+                $productCategory->setMainImage($mainImage);
             }
 
             if(!is_null($form->get('image_files')->getData())){
