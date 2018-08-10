@@ -29,7 +29,7 @@ class ProductCategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('mainImage', FileType::class, array(
+            ->add('ImageFile', FileType::class, array(
                 'required' => false,
                 'data_class' => null,
                 'mapped' => false

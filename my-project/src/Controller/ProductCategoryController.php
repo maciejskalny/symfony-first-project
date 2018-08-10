@@ -46,8 +46,8 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData())) {
-                $mainImage = $imagesActionsService->createImage($form->get('mainImage')->getData());
+            if(!is_null($form->get('ImageFile')->getData())) {
+                $mainImage = $imagesActionsService->createImage($form->get('ImageFile')->getData());
                 $productCategory->setMainImage($mainImage);
             }
 
@@ -90,8 +90,8 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(!is_null($form->get('mainImage')->getData())) {
-                $mainImage = $imagesActionsService->createImage($form->get('mainImage')->getData());
+            if(!is_null($form->get('ImageFile')->getData())) {
+                $mainImage = $imagesActionsService->createImage($form->get('ImageFile')->getData());
                 $productCategory->setMainImage($mainImage);
             }
 

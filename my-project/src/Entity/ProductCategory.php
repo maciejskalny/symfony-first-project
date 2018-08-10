@@ -64,7 +64,7 @@ class ProductCategory
      *     maxSizeMessage = "Too large file",
      *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"},
      *     mimeTypesMessage = "Your file must be a .pdf, .jpg or .jpeg!",
-     *     )
+     *    )
      */
     private $mainImage;
 
@@ -228,6 +228,18 @@ class ProductCategory
             $this->images->removeElement($image);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param Image $image
+     * @return ProductCategory
+     */
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+        }
         return $this;
     }
 
