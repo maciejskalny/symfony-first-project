@@ -87,6 +87,7 @@ class ProductCategoryController extends Controller
     {
         $form = $this->createForm(ProductCategoryType::class, $productCategory);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 

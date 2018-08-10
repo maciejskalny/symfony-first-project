@@ -85,5 +85,4 @@ class ImagesActions
 
         return $file;
     }
-
 }

@@ -232,18 +232,6 @@ class ProductCategory
     }
 
     /**
-     * @param Image $image
-     * @return ProductCategory
-     */
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-        }
-        return $this;
-    }
-
-    /**
      * @return Image|null
      */
     public function getMainImage(): ?Image

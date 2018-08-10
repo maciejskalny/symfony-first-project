@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file supports product entity
+ * This file supports product entity.
  * @category Entity
  * @Package Virtua_Internship
  * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)

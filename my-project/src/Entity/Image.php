@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * This file supports Image entity.
+ * @category Entity
+ * @Package Virtua_Internship
+ * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+ * @author Maciej Skalny contact@wearevirtua.com
+ */
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
