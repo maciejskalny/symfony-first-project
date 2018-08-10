@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This file supports Image entity.
  * @category Entity
@@ -48,6 +49,7 @@ class Image
     {
         return $this->name;
     }
+
 
     /**
      * @param string $name

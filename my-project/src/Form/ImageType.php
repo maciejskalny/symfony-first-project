@@ -1,6 +1,7 @@
 <?php
 
 /**
+
  * This file builds part of ProductCategory form.
  * @category Form
  * @Package Virtua_Internship
