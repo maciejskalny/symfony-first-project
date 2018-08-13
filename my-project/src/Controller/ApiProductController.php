@@ -53,7 +53,6 @@ class ApiProductController extends Controller
      */
     public function showProduct($id)
     {
-
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
         if($product) {
