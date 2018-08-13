@@ -53,17 +53,24 @@ class ApiProductController extends Controller
      */
     public function showProduct($id)
     {
+
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
-        $data = [
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'category' => $product->getCategory(),
-            'created_at' => $product->getAddDate(),
-            'last_modified' => $product->getLastModifiedDate(),
-        ];
+        if($product) {
+            $data = [
+                'name' => $product->getName(),
+                'description' => $product->getDescription(),
+                'category' => $product->getCategory(),
+                'created_at' => $product->getAddDate(),
+                'last_modified' => $product->getLastModifiedDate(),
+            ];
 
-        return new Response(json_encode($data));
+            return new Response(json_encode($data));
+        }
+
+        else{
+            return new Response('Not Found', 404);
+        }
     }
 
     /**
@@ -81,14 +88,17 @@ class ApiProductController extends Controller
 
         $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
 
-        if($product) {
+        if($product && $category) {
             $product->setName($request->query->get('name'));
             $product->setDescription($request->query->get('description'));
             $product->setCategory($category);
             $em->flush();
+            return new Response('Product updated', 200);
         }
 
-        return new Response('Product updated', 200);
+        else{
+         return new Response('Bad Request', 400);
+        }
     }
 
     /**
@@ -102,10 +112,16 @@ class ApiProductController extends Controller
         $em = $this->getDoctrine()->getManager();
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
-        $em->remove($product);
-        $em->flush();
+        if($product) {
+            $em->remove($product);
+            $em->flush();
 
-        return new Response('Product deleted', 200);
+            return new Response('Product deleted', 200);
+        }
+
+        else{
+            return new Response('Not Found', 404);
+        }
     }
 
     /**
@@ -126,6 +142,10 @@ class ApiProductController extends Controller
         return new Response(json_encode($data), 200);
     }
 
+    /**
+     * @param Product $product
+     * @return array
+     */
     public function serializeProduct(Product $product)
     {
         return array(
