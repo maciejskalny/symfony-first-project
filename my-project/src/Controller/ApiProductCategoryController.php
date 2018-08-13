@@ -14,6 +14,7 @@ use App\Entity\Product;
 use App\Entity\ProductCategory;
 use App\Form\ProductType;
 use App\Repository\ProductCategoryRepository;
+use App\Service\ApiService;
 use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,20 +36,7 @@ class ApiProductCategoryController extends Controller
 
         if($category)
         {
-            $data = [
-              'name' => $category->getName(),
-              'description' => $category->getDescription(),
-              'created_at' => $category->getAddDate(),
-              'last_modified' => $category->getLastModifiedDate(),
-              'products' => array(),
-            ];
-
-            foreach ($category->getProducts() as $product)
-            {
-                $data['products'][] = $this->Serialize($product);
-            }
-
-            return new Response(json_encode($data));
+            return new Response(json_encode($category->getCategoryInfo()));
         }
 
         else{
@@ -68,7 +56,7 @@ class ApiProductCategoryController extends Controller
         $data = array('categories' => array());
 
         foreach ($categories as $category){
-            $data['categories'][] = $this->Serialize($category);
+            $data['categories'][] = $category->serializeCategory();
         }
 
         return new Response(json_encode($data), 200);

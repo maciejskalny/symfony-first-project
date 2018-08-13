@@ -57,15 +57,7 @@ class ApiProductController extends Controller
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
         if($product) {
-            $data = [
-                'name' => $product->getName(),
-                'description' => $product->getDescription(),
-                'category' => $product->getCategory(),
-                'created_at' => $product->getAddDate(),
-                'last_modified' => $product->getLastModifiedDate(),
-            ];
-
-            return new Response(json_encode($data));
+            return new Response(json_encode($product->getProductInfo()));
         }
 
         else{
@@ -136,7 +128,7 @@ class ApiProductController extends Controller
         $data = array('products' => array());
 
         foreach ($products as $product) {
-            $data['products'][] = $this->Serialize($product);
+            $data['products'][] = $product->serializeProduct();
         }
 
         return new Response(json_encode($data), 200);
