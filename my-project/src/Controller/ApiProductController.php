@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\ApiService;
 
 class ApiProductController extends Controller
 {
@@ -135,21 +136,9 @@ class ApiProductController extends Controller
         $data = array('products' => array());
 
         foreach ($products as $product) {
-            $data['products'][] = $this->serializeProduct($product);
+            $data['products'][] = $this->Serialize($product);
         }
 
         return new Response(json_encode($data), 200);
-    }
-
-    /**
-     * @param Product $product
-     * @return array
-     */
-    public function serializeProduct(Product $product)
-    {
-        return array(
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-        );
     }
 }
