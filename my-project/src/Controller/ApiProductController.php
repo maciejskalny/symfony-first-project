@@ -107,4 +107,30 @@ class ApiProductController extends Controller
 
         return new Response('Product deleted', 200);
     }
+
+    /**
+     * @Route("api/products")
+     * @Method("GET")
+     * @return Response
+     */
+    public function showAllProducts()
+    {
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
+        $data = array('products' => array());
+
+        foreach ($products as $product) {
+            $data['products'][] = $this->serializeProduct($product);
+        }
+
+        return new Response(json_encode($data), 200);
+    }
+
+    public function serializeProduct(Product $product)
+    {
+        return array(
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+        );
+    }
 }
