@@ -33,16 +33,22 @@ class ApiProductController extends Controller
 
         $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
 
-        $product->setName($request->query->get('name'));
-        $product->setDescription($request->query->get('description'));
-        $product->setCategory($category);
+        if($category) {
+            $product->setName($request->query->get('name'));
+            $product->setDescription($request->query->get('description'));
+            $product->setCategory($category);
 
-        $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
-        $em->persist($product);
-        $em->flush();
+            $em->persist($product);
+            $em->flush();
 
-        return new Response('New product added', 201);
+            return new Response('New product added', 201);
+        }
+
+        else{
+            return new Response('Bad Request', 400);
+        }
     }
 
     /**
