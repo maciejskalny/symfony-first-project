@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: virtua
- * Date: 03.08.2018
- * Time: 10:09
+ * This file supports Api Product and Api Category controllers.
+ * @category Service
+ * @Package Virtua_Internship
+ * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
+ * @author Maciej Skalny contact@wearevirtua.com
  */
 
 namespace App\Service;

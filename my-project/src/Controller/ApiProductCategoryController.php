@@ -72,7 +72,6 @@ class ApiProductCategoryController extends Controller
         }
 
         return new Response(json_encode($data), 200);
-
     }
 
     /**
