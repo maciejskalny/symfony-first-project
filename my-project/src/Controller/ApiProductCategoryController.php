@@ -12,15 +12,16 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\ProductCategory;
+use App\Form\ApiProductType;
 use App\Form\ProductType;
 use App\Repository\ProductCategoryRepository;
-use App\Service\ApiService;
 use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\ApiProductCategoryType;
 
 class ApiProductCategoryController extends Controller
 {
@@ -70,15 +71,17 @@ class ApiProductCategoryController extends Controller
      */
     public function newCategory(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+
         $category = new ProductCategory();
-        $category->setName($request->query->get('name'));
-        $category->setDescription($request->query->get('description'));
+
+        $form = $this->createForm(ApiProductCategoryType::class, $category);
+        $form->submit($request->query->all());
 
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($category);
         $em->flush();
-
         return new Response('New category added.', 200);
     }
 
@@ -92,15 +95,16 @@ class ApiProductCategoryController extends Controller
     public function editCategory(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+
+        $data = json_encode($request->getContent(), true);
+
         $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['id'=>$id]);
 
-        if($category)
-        {
-            $category->setName($request->query->get('name'));
-            $category->setDescription($request->query->get('description'));
+        if($category) {
+            $form = $this->createForm(ApiProductCategoryType::class, $category);
+            $form->submit($request->query->all());
 
             $em->flush();
-
             return new Response('Category updated', 200);
         }
 

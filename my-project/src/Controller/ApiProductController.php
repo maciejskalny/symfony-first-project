@@ -12,6 +12,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\ProductCategory;
+use App\Form\ApiProductType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
@@ -20,32 +21,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\ApiService;
 
 class ApiProductController extends Controller
 {
-    /**
-     * @Route("api/product")
-     * @Method("POST")
-     */
-    public function newProduct(Request $request)
-    {
-        $product = new Product();
-
-        $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
-
-        $product->setName($request->query->get('name'));
-        $product->setDescription($request->query->get('description'));
-        $product->setCategory($category);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($product);
-        $em->flush();
-
-        return new Response('New product added', 201);
-    }
-
     /**
      * @Route("/api/product/{id}")
      * @Method("GET")
@@ -66,6 +44,44 @@ class ApiProductController extends Controller
     }
 
     /**
+     * @Route("api/products")
+     * @Method("GET")
+     * @return Response
+     */
+    public function showAllProducts()
+    {
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
+        $data = array('products' => array());
+
+        foreach ($products as $product) {
+            $data['products'][] = $product->serializeProduct();
+        }
+
+        return new Response(json_encode($data), 200);
+    }
+
+    /**
+     * @Route("api/product")
+     * @Method("POST")
+     */
+    public function newProduct(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $product = new Product();
+
+        $form = $this->createForm(ApiProductType::class, $product);
+        $form->submit($request->query->all());
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($product);
+        $em->flush();
+        return new Response('New product added', 201);
+    }
+
+    /**
      * @Route("/api/product/{id}/edit")
      * @Method("PUT")
      * @param Request $request
@@ -76,20 +92,20 @@ class ApiProductController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $data = json_decode($request->getContent(), true);
+
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
-        $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
+        if($product) {
+            $form = $this->createForm(ApiProductType::class, $product);
+            $form->submit($request->query->all());
 
-        if($product && $category) {
-            $product->setName($request->query->get('name'));
-            $product->setDescription($request->query->get('description'));
-            $product->setCategory($category);
             $em->flush();
-            return new Response('Product updated', 200);
+            return new Response('Product updated.', 200);
         }
 
         else{
-         return new Response('Bad Request', 400);
+            return new Response('Bad Request', 400);
         }
     }
 
@@ -114,23 +130,5 @@ class ApiProductController extends Controller
         else{
             return new Response('Not Found', 404);
         }
-    }
-
-    /**
-     * @Route("api/products")
-     * @Method("GET")
-     * @return Response
-     */
-    public function showAllProducts()
-    {
-        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
-
-        $data = array('products' => array());
-
-        foreach ($products as $product) {
-            $data['products'][] = $product->serializeProduct();
-        }
-
-        return new Response(json_encode($data), 200);
     }
 }
