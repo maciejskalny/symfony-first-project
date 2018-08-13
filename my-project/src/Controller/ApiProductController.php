@@ -11,8 +11,10 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductCategory;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,14 +29,13 @@ class ApiProductController extends Controller
      */
     public function newProduct(Request $request)
     {
-        $nameQuery = $request->query->get('name');
-        $descriptionQuery = $request->query->get('description');
-
         $product = new Product();
 
-        $product->setName($nameQuery);
-        $product->setDescription($descriptionQuery);
-        $product->setCategory(null);
+        $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
+
+        $product->setName($request->query->get('name'));
+        $product->setDescription($request->query->get('description'));
+        $product->setCategory($category);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -67,7 +68,7 @@ class ApiProductController extends Controller
 
     /**
      * @Route("/api/product/{id}/edit")
-     * @Method("POST")
+     * @Method("PUT")
      * @param Request $request
      * @param $id
      * @return Response
@@ -75,16 +76,35 @@ class ApiProductController extends Controller
     public function editProduct(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
 
-        if($product)
-        {
-            $product->setName($request->get('name'));
-            $product->setDescription($request->get('description'));
+        $category = $this->getDoctrine()->getRepository(ProductCategory::class)->findOneBy(['name' => $request->query->get('category')]);
+
+        if($product) {
+            $product->setName($request->query->get('name'));
+            $product->setDescription($request->query->get('description'));
+            $product->setCategory($category);
             $em->flush();
         }
 
         return new Response('Product updated', 200);
     }
 
+    /**
+     * @Route("/api/product/{id}/delete")
+     * @Method("DELETE")
+     * @param $id
+     * @return Response
+     */
+    public function deleteProduct($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['id' => $id]);
+
+        $em->remove($product);
+        $em->flush();
+
+        return new Response('Product deleted', 200);
+    }
 }
