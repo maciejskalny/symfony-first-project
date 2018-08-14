@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file supports product entity.
+ * This file supports product entity
  * @category Entity
  * @Package Virtua_Internship
  * @copyright Copyright (c) 2018 Virtua (http://www.wearevirtua.com)
@@ -51,26 +51,16 @@ class Product
      */
     private $category;
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Product
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -78,18 +68,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param null|string $description
-     * @return Product
-     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -97,9 +80,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return \DateTimeInterface|null
-     */
     public function getAddDate(): ?\DateTimeInterface
     {
         return $this->add_date;
@@ -108,14 +88,12 @@ class Product
     /**
      * @ORM\PrePersist
      */
+
     public function setAddDate()
     {
         $this->add_date = new \DateTime();
     }
 
-    /**
-     * @return \DateTimeInterface|null
-     */
     public function getLastModifiedDate(): ?\DateTimeInterface
     {
         return $this->last_modified_date;
@@ -125,23 +103,17 @@ class Product
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
+
     public function setLastModifiedDate()
     {
         $this->last_modified_date = new \DateTime();
     }
 
-    /**
-     * @return ProductCategory|null
-     */
     public function getCategory(): ?ProductCategory
     {
         return $this->category;
     }
 
-    /**
-     * @param ProductCategory|null $category
-     * @return Product
-     */
     public function setCategory(?ProductCategory $category): self
     {
         $this->category = $category;
